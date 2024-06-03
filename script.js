@@ -35,19 +35,20 @@ async function checkFamilyShare() {
             const hasFamilySharing = categories.some(category => category.description === "Family Sharing");
 
             if (hasFamilySharing) {
-                displayResult('This game can be shared via Family Sharing.', 'green');
+                displayResult(`${gameData.name} can be shared via Family Sharing.`, 'green', gameData.name);
             } else {
-                displayResult('This game cannot be shared via Family Sharing.', 'red');
+                displayResult(`${gameData.name} cannot be shared via Family Sharing.`, 'red', gameData.name);
             }
         } else {
             // If the game is free, display that information
-            displayResult('This game is free to play.');
+            displayResult(`${gameData.name} is free to play.`, 'white', gameData.name);
         }
     } catch (error) {
         console.error('Error checking game details:', error);
-        displayResult('An error occurred while checking game details. Please check the console for more details.');
+        displayResult('An error occurred while checking game details. Please check the console for more details.', 'white');
     }
 }
+
 
 function extractAppId(url) {
     const match = url.match(/\/app\/(\d+)/);
