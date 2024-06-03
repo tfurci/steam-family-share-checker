@@ -1,4 +1,5 @@
 async function checkFamilyShare() {
+    hideFamilyShareStatus();
     const appLink = document.getElementById('appLinkInput').value;
     const appId = extractAppId(appLink);
     
@@ -39,6 +40,19 @@ async function checkFamilyShare() {
             } else {
                 displayResult1(`${gameData.name} cannot be shared via Family Sharing.`, 'red', false);
             }
+
+            const statusIndicator = document.getElementById('statusIndicator');
+            if (hasFamilySharing) {
+                statusIndicator.textContent = '✓'; // Checkmark character
+                statusIndicator.style.color = 'green';
+            } else {
+                statusIndicator.textContent = '✗'; // Cross mark character
+                statusIndicator.style.color = 'red';
+            }
+
+            const familyShareStatus = document.getElementById('familyShareStatus');
+            familyShareStatus.style.display = 'block'; // Show the hidden div
+
         } else {
             // If the game is free, display that information
             displayResult1(`${gameData.name} is free to play.`, 'white', false);
@@ -81,4 +95,9 @@ function clearDisplayResult1() {
     displayResult1();
     const resultDiv = document.getElementById('result');
     resultDiv.textContent = ''; // Clear the text content
+}
+
+function hideFamilyShareStatus() {
+    const familyShareStatus = document.getElementById('familyShareStatus');
+    familyShareStatus.style.display = 'none'; // Hide the div
 }
