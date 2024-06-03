@@ -23,12 +23,18 @@ async function searchGames() {
                 const name = game.querySelector('.title').textContent.trim();
                 const appId = game.getAttribute('data-ds-appid');
                 const price = game.querySelector('.discount_final_price').textContent.trim();
+                const logoUrl = game.querySelector('.search_capsule img').src;
 
                 const gameItem = document.createElement('div');
                 gameItem.classList.add('gameItem');
                 gameItem.innerHTML = `
-                    <p>${name} : ${appId} : ${price}</p>
-                    <button onclick="selectGame('${appId}')">Check Family Share</button>
+                    <div style="display: flex; align-items: center;">
+                        <img src="${logoUrl}" alt="${name}" style="width: 75px; height: auto; max-height: 50px; margin-right: 10px; object-fit: contain;">
+                        <div>
+                            <p>${name}</p> <p>AppID: ${appId}</p> <p>${price}</p>
+                            <button onclick="selectGame('${appId}')">Check Family Share</button>
+                        </div>
+                    </div>
                 `;
                 gameList.appendChild(gameItem);
             }
@@ -37,6 +43,7 @@ async function searchGames() {
         console.error('Error searching games:', error);
     }
 }
+
 
 function selectGame(appId) {
     const transformedAppId = `https://store.steampowered.com/app/${appId}/`;
