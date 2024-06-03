@@ -20,9 +20,13 @@ async function searchGames() {
 
         games.forEach((game, index) => {
             if (index < 10) { // Limit to first 10 search results
-                const name = game.querySelector('.title').textContent.trim();
+                const titleElement = game.querySelector('.title');
+                if (!titleElement) return; // Skip if title element is not found
+
+                const name = titleElement.textContent.trim();
                 const appId = game.getAttribute('data-ds-appid');
-                const price = game.querySelector('.discount_final_price').textContent.trim();
+                const priceElement = game.querySelector('.discount_final_price');
+                const price = priceElement ? priceElement.textContent.trim() : 'Price not available';
                 const logoUrl = game.querySelector('.search_capsule img').src;
 
                 const gameItem = document.createElement('div');
@@ -54,6 +58,7 @@ async function searchGames() {
         console.error('Error searching games:', error);
     }
 }
+
 
 function searchFieldClicked(appId) {
     const confirmation = confirm(`Do you want to check family share for the selected game with ID: ${appId}?`);
