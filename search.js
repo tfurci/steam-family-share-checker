@@ -29,9 +29,13 @@ async function searchGames() {
                 gameItem.classList.add('gameItem');
                 gameItem.innerHTML = `
                     <div style="display: flex; align-items: center;">
-                        <img src="${logoUrl}" alt="${name}" style="width: 75px; height: auto; max-height: 50px; margin-right: 10px; object-fit: contain;">
+                        <img src="${logoUrl}" alt="${name}" style="width: 50px; height: auto; max-height: 50px; margin-right: 10px; object-fit: contain;">
                         <div>
-                            <p>${name}</p> <p>AppID: ${appId}</p> <p>${price}</p>
+                            <p>${name}</p>
+                            <p style="font-size: smaller;">AppID: ${appId}</p>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <p style="font-size: smaller;">${price}</p>
                             <button onclick="selectGame('${appId}')">Check Family Share</button>
                         </div>
                     </div>
