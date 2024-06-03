@@ -20,6 +20,31 @@ async function searchGames() {
         const gameList = document.getElementById('gameList');
         gameList.innerHTML = '';
 
+        if (games.length === 0) {
+            const suggestionElement = doc.querySelector('.search_results_spellcheck_suggestion');
+            const suggestion = suggestionElement ? suggestionElement.textContent.trim() : null;
+            const correctNameMatch = suggestionElement ? suggestionElement.innerHTML.match(/ReplaceTerm\( &quot;(.+?)&quot; \)/) : null;
+            const correctName = correctNameMatch ? correctNameMatch[1] : null;
+            if (suggestion) {
+                displayResult(`No results found. Did you mean "<a href="#" id="suggestedTerm" style="color: cyan;">${correctName}</a>"?`, 'red', false);
+                if (correctName) {
+                    setTimeout(() => {
+                        const suggestedTermElement = document.getElementById('suggestedTerm');
+                        if (suggestedTermElement) {
+                            suggestedTermElement.addEventListener('click', (event) => {
+                                event.preventDefault();
+                                correctNameSearch(correctName);
+                                
+                            });
+                        }
+                    }, 100); // Delay to ensure the HTML is rendered
+                }
+            } else {
+                displayResult('No results found. Check if game name is spelled correctly.', 'red', false);
+            }
+            return;
+        }
+
         games.forEach((game, index) => {
             if (index < 10) { // Limit to first 10 search results
                 const titleElement = game.querySelector('.title');
@@ -81,6 +106,7 @@ function selectGame(appId) {
 
 function clearSearchResults() {
     const gameList = document.getElementById('gameList');
+    document.getElementById('searchInput').value = '';
     gameList.innerHTML = '';
 }
 
@@ -103,6 +129,8 @@ function displayResult(message, color, animate = false) {
                 dots = '';
             }
         }, 500);
+    } else {
+        searchStatus.innerHTML = message; // Set innerHTML to display HTML content
     }
 }
 
@@ -110,4 +138,9 @@ function clearDisplayResult() {
     displayResult();
     const searchStatus = document.getElementById('searchStatus');
     searchStatus.textContent = ''; // Clear the text content
+}
+
+function correctNameSearch(correctName) {
+    document.getElementById('searchInput').value = correctName;
+    searchGames();
 }
