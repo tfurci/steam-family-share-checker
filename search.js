@@ -28,19 +28,26 @@ async function searchGames() {
                 const gameItem = document.createElement('div');
                 gameItem.classList.add('gameItem');
                 gameItem.innerHTML = `
-                    <div style="display: flex; align-items: center;">
+                    <div class="searchResult" style="display: flex; align-items: center; cursor: pointer;">
                         <img src="${logoUrl}" alt="${name}" style="width: 50px; height: auto; max-height: 50px; margin-right: 10px; object-fit: contain;">
                         <div>
                             <p>${name}</p>
                             <p style="font-size: smaller;">AppID: ${appId}</p>
                         </div>
                         <div style="margin-left: auto;">
-                            <p style="font-size: smaller;">${price}</p>
+                            <p style="font-size: smaller;">$${price}</p>
                             <button onclick="selectGame('${appId}')">Check Family Share</button>
                         </div>
                     </div>
                 `;
                 gameList.appendChild(gameItem);
+
+                gameItem.addEventListener('click', () => {
+                    const buttonClicked = event.target.tagName.toLowerCase() === 'button';
+                    if (!buttonClicked) {
+                        searchFieldClicked(appId);
+                    }
+                });
             }
         });
     } catch (error) {
@@ -48,6 +55,12 @@ async function searchGames() {
     }
 }
 
+function searchFieldClicked(appId) {
+    const confirmation = confirm(`Do you want to check family share for the selected game with ID: ${appId}?`);
+    if (confirmation) {
+        selectGame(appId);
+    }
+}
 
 function selectGame(appId) {
     const transformedAppId = `https://store.steampowered.com/app/${appId}/`;
