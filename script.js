@@ -3,11 +3,11 @@ async function checkFamilyShare() {
     const appId = extractAppId(appLink);
     
     if (!appId) {
-        displayResult('Invalid Steam App Link', 'white');
+        displayResult1('Invalid Steam App Link', 'white', false);
         return;
     }
 
-    displayResult('Fetching data...', 'white');
+    displayResult1('Fetching data', 'white', true);
 
     try {
         const response = await fetch(`https://api.allorigins.win/raw?url=https://store.steampowered.com/api/appdetails?appids=${appId}`);
@@ -16,7 +16,7 @@ async function checkFamilyShare() {
         }
 
         // Move the displayResult('Data received'); here
-        displayResult('Data received');
+        displayResult1('Data received', 'white', false);
 
         const data = await response.json();
         if (!data || !data[appId] || !data[appId].success || !data[appId].data) {
@@ -35,17 +35,17 @@ async function checkFamilyShare() {
             const hasFamilySharing = categories.some(category => category.description === "Family Sharing");
 
             if (hasFamilySharing) {
-                displayResult(`${gameData.name} can be shared via Family Sharing.`, 'green');
+                displayResult1(`${gameData.name} can be shared via Family Sharing.`, 'green', false);
             } else {
-                displayResult(`${gameData.name} cannot be shared via Family Sharing.`, 'red');
+                displayResult1(`${gameData.name} cannot be shared via Family Sharing.`, 'red', false);
             }
         } else {
             // If the game is free, display that information
-            displayResult(`${gameData.name} is free to play.`, 'white');
+            displayResult1(`${gameData.name} is free to play.`, 'white', false);
         }
     } catch (error) {
         console.error('Error checking game details:', error);
-        displayResult('An error occurred while checking game details. Please check the console for more details.', 'white');
+        displayResult1('An error occurred while checking game details. Please check the console for more details.', 'white');
     }
 }
 
@@ -55,8 +55,30 @@ function extractAppId(url) {
     return match ? match[1] : null;
 }
 
-function displayResult(message, color) {
+let intervalId1;
+
+function displayResult1(message, color, animatee = false) {
     const resultDiv = document.getElementById('result');
     resultDiv.textContent = message;
     resultDiv.style.color = color;
+
+    // Clear any existing animation interval
+    clearInterval(intervalId1);
+
+    if (animatee) {
+        let dots = '';
+        intervalId1 = setInterval(() => {
+            dots += '.';
+            result.textContent = message + dots;
+            if (dots.length === 4) {
+                dots = '';
+            }
+        }, 500);
+    }
+}
+
+function clearDisplayResult1() {
+    displayResult1();
+    const resultDiv = document.getElementById('result');
+    resultDiv.textContent = ''; // Clear the text content
 }

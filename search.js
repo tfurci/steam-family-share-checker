@@ -5,6 +5,8 @@ async function searchGames() {
         return;
     }
 
+    displayResult('Fetching game data', 'white', true);
+
     try {
         const response = await fetch(`https://api.allorigins.win/raw?url=https://store.steampowered.com/search/results/?term=${encodeURIComponent(searchInput)}&count=10`);
         if (!response.ok) {
@@ -45,6 +47,8 @@ async function searchGames() {
                     </div>
                 `;
                 gameList.appendChild(gameItem);
+                // displayResult('Game list found and displayed.', 'white', false);
+                clearDisplayResult();
 
                 gameItem.addEventListener('click', () => {
                     const buttonClicked = event.target.tagName.toLowerCase() === 'button';
@@ -56,6 +60,7 @@ async function searchGames() {
         });
     } catch (error) {
         console.error('Error searching games:', error);
+        displayResult('An error occurred while fetching game data. Please try to search for game again.', 'white', false); // Display error status
     }
 }
 
@@ -77,4 +82,32 @@ function selectGame(appId) {
 function clearSearchResults() {
     const gameList = document.getElementById('gameList');
     gameList.innerHTML = '';
+}
+
+let intervalId; // Define intervalId outside the function
+
+function displayResult(message, color, animate = false) {
+    const searchStatus = document.getElementById('searchStatus'); // Get search status element
+    searchStatus.textContent = message;
+    searchStatus.style.color = color;
+
+    // Clear any existing animation interval
+    clearInterval(intervalId);
+
+    if (animate) {
+        let dots = '';
+        intervalId = setInterval(() => {
+            dots += '.';
+            searchStatus.textContent = message + dots;
+            if (dots.length === 4) {
+                dots = '';
+            }
+        }, 500);
+    }
+}
+
+function clearDisplayResult() {
+    displayResult();
+    const searchStatus = document.getElementById('searchStatus');
+    searchStatus.textContent = ''; // Clear the text content
 }
