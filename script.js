@@ -3,11 +3,11 @@ async function checkFamilyShare() {
     const appId = extractAppId(appLink);
     
     if (!appId) {
-        displayResult('Invalid Steam App Link');
+        displayResult('Invalid Steam App Link', 'white');
         return;
     }
 
-    displayResult('Fetching data...');
+    displayResult('Fetching data...', 'white');
 
     try {
         const response = await fetch(`https://api.allorigins.win/raw?url=https://store.steampowered.com/api/appdetails?appids=${appId}`);
