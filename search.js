@@ -35,7 +35,7 @@ async function searchGames() {
                             <p style="font-size: smaller;">AppID: ${appId}</p>
                         </div>
                         <div style="margin-left: auto;">
-                            <p style="font-size: smaller;">$${price}</p>
+                            <p style="font-size: smaller;">${price}</p>
                             <button onclick="selectGame('${appId}')">Check Family Share</button>
                         </div>
                     </div>
