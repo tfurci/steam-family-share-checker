@@ -35,13 +35,13 @@ async function checkFamilyShare() {
             const hasFamilySharing = categories.some(category => category.description === "Family Sharing");
 
             if (hasFamilySharing) {
-                displayResult(`${gameData.name} can be shared via Family Sharing.`, 'green', gameData.name);
+                displayResult(`${gameData.name} can be shared via Family Sharing.`, 'green');
             } else {
-                displayResult(`${gameData.name} cannot be shared via Family Sharing.`, 'red', gameData.name);
+                displayResult(`${gameData.name} cannot be shared via Family Sharing.`, 'red');
             }
         } else {
             // If the game is free, display that information
-            displayResult(`${gameData.name} is free to play.`, 'white', gameData.name);
+            displayResult(`${gameData.name} is free to play.`, 'white');
         }
     } catch (error) {
         console.error('Error checking game details:', error);
