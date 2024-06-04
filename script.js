@@ -1,11 +1,20 @@
 async function checkFamilyShare() {
     hideFamilyShareStatus();
     const appLink = document.getElementById('appLinkInput').value;
-    const appId = extractAppId(appLink);
-    
-    if (!appId) {
-        displayResult1('Invalid Steam App Link', 'white', false);
-        return;
+
+    // Check if a raw app ID is provided
+    if (!isNaN(appLink)) {
+        appId = handleRawAppId(appLink);
+        if (!appId) {
+            displayResult1('Invalid Steam App ID', 'white', false);
+            return;
+          }
+    } else {
+        appId = extractAppId(appLink);
+        if (!appId) {
+            displayResult1('Invalid Steam App Link', 'white', false);
+            return;
+          }
     }
 
     displayResult1('Fetching data', 'white', true);
@@ -13,7 +22,7 @@ async function checkFamilyShare() {
     const url = `https://api.allorigins.win/raw?url=https://store.steampowered.com/api/appdetails?appids=${appId}`;
 
     try {
-        const data = await fetchWithRetries(url, 2000, 'json');
+        const data = await fetchWithRetries(url, 5000, 'json');
 
         // Move the displayResult('Data received'); here
         displayResult1('Data received', 'white', false);
@@ -64,8 +73,18 @@ async function checkFamilyShare() {
 
 
 function extractAppId(url) {
+    // Escape special characters to prevent potential code execution
     const match = url.match(/\/app\/(\d+)/);
     return match ? match[1] : null;
+  }
+
+function handleRawAppId(appId) {
+    if (appId.length < 1 || appId.length > 10 || isNaN(appId)) {
+        displayResult1('Invalid Steam App ID format', 'white', false);
+        return;
+    }
+    console.log(`Using raw app ID: ${appId}`);
+    return appId;
 }
 
 let intervalId1;
