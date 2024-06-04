@@ -78,6 +78,7 @@
     <h1>Steam Family Share Checker</h1>
     <input type="text" id="appLinkInput" placeholder="Enter Steam App Link/ID">
     <button onclick="checkFamilyShare()">Check</button>
+    <button onclick="clearSteamAppResults()">Clear</button>
     <div id="result" style="padding-top:10px">Input a Steam game's link to see if it's family sharable.</div>
     <div id="familyShareStatus" style="display: none;padding-top:10px">
         Status: <span id="statusIndicator">&#9744;</span>
@@ -86,7 +87,7 @@
     <h2>Search Games</h2>
     <input type="text" id="searchInput" placeholder="Enter game name">
     <button onclick="searchGames()">Search</button>
-    <button onclick="clearSearchResults()">Clear search results</button>
+    <button onclick="clearSearchResults()">Clear</button>
     <div id="searchStatus" style="color: white;"></div>
     <div id="gameList"></div>
 
@@ -97,5 +98,6 @@
     <script src="script.js"></script>
     <script src="search.js"></script>
     <script src="functions.js"></script>
+    <script src="customappid.js"></script>
 </body>
 </html>

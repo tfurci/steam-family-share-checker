@@ -42,18 +42,20 @@ async function checkFamilyShare() {
             // Check if the "categories" array includes an object with the "description" "Family Sharing"
             const categories = gameData.categories || [];
             const hasFamilySharing = categories.some(category => category.description === "Family Sharing");
+            const statusIndicator = document.getElementById('statusIndicator');
 
             if (hasFamilySharing) {
-                displayResult1(`${gameData.name} can be shared via Family Sharing.`, 'green', false);
+                if (disabledFamilyShareApps.includes(appId)) {
+                    displayResult1(`${gameData.name} can't be family shared as sharing is internally disabled(still shown as sharable on game's webpage)`, 'red', false);
+                    statusIndicator.textContent = '✗'; // Cross mark character
+                    statusIndicator.style.color = 'red';
+                } else {
+                    displayResult1(`${gameData.name} can be shared via Family Sharing.`, 'green', false);
+                    statusIndicator.textContent = '✓'; // Checkmark character
+                    statusIndicator.style.color = 'green';
+                }
             } else {
                 displayResult1(`${gameData.name} cannot be shared via Family Sharing.`, 'red', false);
-            }
-
-            const statusIndicator = document.getElementById('statusIndicator');
-            if (hasFamilySharing) {
-                statusIndicator.textContent = '✓'; // Checkmark character
-                statusIndicator.style.color = 'green';
-            } else {
                 statusIndicator.textContent = '✗'; // Cross mark character
                 statusIndicator.style.color = 'red';
             }
@@ -67,7 +69,7 @@ async function checkFamilyShare() {
         }
     } catch (error) {
         console.error('Error checking game details:', error);
-        displayResult1('An error occurred while checking game details. Please try to reaload the website and try again.', 'white');
+        displayResult1('An error occurred while checking game details. Please try to reload the website and try again.', 'white');
     }
 }
 
@@ -110,12 +112,21 @@ function displayResult1(message, color, animatee = false) {
 }
 
 function clearDisplayResult1() {
-    displayResult1();
-    const resultDiv = document.getElementById('result');
-    resultDiv.textContent = ''; // Clear the text content
+    displayResult1("Input a Steam game's link to see if it's family sharable", 'white', false);
 }
 
 function hideFamilyShareStatus() {
     const familyShareStatus = document.getElementById('familyShareStatus');
     familyShareStatus.style.display = 'none'; // Hide the div
+}
+
+function clearAppLinkInput() {
+    const appLink = document.getElementById('appLinkInput');
+    appLink.value = '';
+}
+
+function clearSteamAppResults() {
+    clearAppLinkInput();
+    clearDisplayResult1();
+    hideFamilyShareStatus();
 }
