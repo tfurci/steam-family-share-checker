@@ -7,13 +7,10 @@ async function searchGames() {
 
     displayResult('Fetching game data', 'white', true);
 
-    try {
-        const response = await fetch(`https://api.allorigins.win/raw?url=https://store.steampowered.com/search/results/?term=${encodeURIComponent(searchInput)}&count=10`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch game search results. Status: ${response.status} ${response.statusText}`);
-        }
+    const url = `https://api.allorigins.win/raw?url=https://store.steampowered.com/search/results/?term=${encodeURIComponent(searchInput)}&count=10`;
 
-        const html = await response.text();
+    try {
+        const html = await fetchWithRetries(url, 5000, 'text'); // Total of 10 seconds for all attempts
         const doc = new DOMParser().parseFromString(html, 'text/html');
         const games = doc.querySelectorAll('#search_resultsRows a');
 
@@ -34,7 +31,6 @@ async function searchGames() {
                             suggestedTermElement.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 correctNameSearch(correctName);
-                                
                             });
                         }
                     }, 100); // Delay to ensure the HTML is rendered
@@ -44,7 +40,6 @@ async function searchGames() {
             }
             return;
         }
-
         games.forEach((game, index) => {
             if (index < 10) { // Limit to first 10 search results
                 const titleElement = game.querySelector('.title');
@@ -85,7 +80,7 @@ async function searchGames() {
         });
     } catch (error) {
         console.error('Error searching games:', error);
-        displayResult('An error occurred while fetching game data. Please try to search for game again.', 'white', false); // Display error status
+        displayResult('An error occurred while fetching game data. Please reload the website and try to search for game again.', 'white', false); // Display error status
     }
 }
 

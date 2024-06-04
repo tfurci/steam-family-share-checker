@@ -10,16 +10,15 @@ async function checkFamilyShare() {
 
     displayResult1('Fetching data', 'white', true);
 
+    const url = `https://api.allorigins.win/raw?url=https://store.steampowered.com/api/appdetails?appids=${appId}`;
+
     try {
-        const response = await fetch(`https://api.allorigins.win/raw?url=https://store.steampowered.com/api/appdetails?appids=${appId}`);
-        if (!response.ok) {
-            throw new Error(`Network response was not ok. Status: ${response.status} ${response.statusText}`);
-        }
+        const data = await fetchWithRetries(url, 2000, 'json');
 
         // Move the displayResult('Data received'); here
         displayResult1('Data received', 'white', false);
 
-        const data = await response.json();
+        
         if (!data || !data[appId] || !data[appId].success || !data[appId].data) {
             throw new Error(`Game data not found for App ID: ${appId}`);
         }
@@ -59,7 +58,7 @@ async function checkFamilyShare() {
         }
     } catch (error) {
         console.error('Error checking game details:', error);
-        displayResult1('An error occurred while checking game details. Please check the console for more details.', 'white');
+        displayResult1('An error occurred while checking game details. Please try to reaload the website and try again.', 'white');
     }
 }
 
