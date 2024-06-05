@@ -65,12 +65,22 @@
             opacity: 0.7;
         }
 
+        #appStatus {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
         .credits a {
             color: #fff;
         }
 
         .credits a:hover {
             text-decoration: underline;
+        }
+
+        #fetchstatusIndicator {
+            font-size: 12px;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -95,8 +105,8 @@
         <p>Created by <a href="https://github.com/tfurci" target="_blank">tfurci</a>. <a href="https://github.com/tfurci/steam-family-share-checker" target="_blank">GitHub Repository</a></p>
     </div>
 
-    <div id="appStatus" style="padding-top:5px">
-        Server status: <span id="fetchstatusIndicator" style="font-size: 10px;">🟠</span>
+    <div id="appStatus">
+        Server status: <span id="fetchstatusIndicator">&#x1F7E0;</span>
     </div>
 
     <script src="script.js"></script>
