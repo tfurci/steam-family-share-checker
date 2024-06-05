@@ -26,7 +26,7 @@ async function fetchWithRetries(url, maxTotalTime = 5000, responseType = 'text')
 
 async function checkAppStatus() {
     try {
-        const response = await fetch('http://localhost:3000/status');
+        const response = await fetch('https://13584595.xyz/status');
         const text = await response.text(); // Get the text content of the response
         console.log('Response:', text); // Log the response for debugging
         const fetchstatusIndicator = document.getElementById('fetchstatusIndicator');
