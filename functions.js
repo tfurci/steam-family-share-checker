@@ -28,15 +28,15 @@ async function checkAppStatus() {
     try {
         const response = await fetch('https://13584595.xyz/status');
         const data = await response.json();
-        const statusIndicator = document.getElementById('statusIndicator');
-        if (data.active) {
-            statusIndicator.textContent = '🟢'; // Green Circle
+        const fetchstatusIndicator = document.getElementById('fetchstatusIndicator');
+        if (data.active === true) {
+            fetchstatusIndicator.textContent = '🟢'; // Green Circle
         } else {
-            statusIndicator.textContent = '🔴'; // Red Circle
+            fetchstatusIndicator.textContent = '🔴'; // Red Circle
         }
     } catch (error) {
         console.error('Error fetching app status:', error);
-        const statusIndicator = document.getElementById('statusIndicator');
-        statusIndicator.textContent = '🔴'; // Set to red in case of error
+        const fetchstatusIndicator = document.getElementById('fetchstatusIndicator');
+        fetchstatusIndicator.textContent = '🔴'; // Set to red in case of error
     }
 }
