@@ -41,3 +41,17 @@ async function checkAppStatus() {
         fetchstatusIndicator.textContent = '🔴'; // Set to red in case of error
     }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            if (document.activeElement.id === "appLinkInput") {
+                event.preventDefault();
+                checkFamilyShare();
+            } else if (document.activeElement.id === "searchInput") {
+                event.preventDefault();
+                searchGames();
+            }
+        }
+    });
+});
