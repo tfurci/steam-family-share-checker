@@ -19,7 +19,7 @@ async function checkFamilyShare() {
 
     displayResult1('Fetching data', 'white', true);
 
-    //const url = `https://api.allorigins.win/raw?url=https://store.steampowered.com/api/appdetails?appids=${appId}&l=english`;
+    //const url = `https://api.allorigins.win/raw?url=https://store.steampowered.com/api/appdetails?appids=${appId}&l=english`; //Api for testing
     const url = `https://13584595.xyz/raw?url=https://store.steampowered.com/api/appdetails?appids=${appId}&l=english`;
 
     try {
@@ -34,6 +34,20 @@ async function checkFamilyShare() {
         }
 
         const gameData = data[appId].data;
+
+        // Check if the game is coming soon
+        const comingSoon = gameData.release_date?.coming_soon || false;
+
+        const statusIndicator = document.getElementById('statusIndicator');
+        const familyShareStatus = document.getElementById('familyShareStatus');
+
+        if (comingSoon) {
+            displayResult1(`${gameData.name} is not released yet.`, 'orange', false);
+            statusIndicator.textContent = '⧗'; // Hourglass character
+            statusIndicator.style.color = 'orange';
+            familyShareStatus.style.display = 'block'; // Show the hidden div
+            return;
+        }
         
         // Check if the game is free
         const isFree = gameData.is_free || false;
@@ -43,7 +57,6 @@ async function checkFamilyShare() {
             // Check if the "categories" array includes an object with the "description" "Family Sharing"
             const categories = gameData.categories || [];
             const hasFamilySharing = categories.some(category => category.description === "Family Sharing");
-            const statusIndicator = document.getElementById('statusIndicator');
 
             if (hasFamilySharing) {
                 if (disabledFamilyShareApps.includes(appId)) {
@@ -61,7 +74,6 @@ async function checkFamilyShare() {
                 statusIndicator.style.color = 'red';
             }
 
-            const familyShareStatus = document.getElementById('familyShareStatus');
             familyShareStatus.style.display = 'block'; // Show the hidden div
 
         } else {
