@@ -7,8 +7,8 @@ async function searchGames() {
 
     displayResult('Fetching game data', 'white', true);
 
-    //const url = `https://api.allorigins.win/raw?url=https://store.steampowered.com/search/results/?term=${encodeURIComponent(searchInput)}&count=10&l=english`;
-    const url = `https://13584595.xyz/raw?url=https://store.steampowered.com/search/results/?term=${encodeURIComponent(searchInput)}&count=10&l=english`;
+    const url = `https://api.allorigins.win/raw?url=https://store.steampowered.com/search/results/?term=${encodeURIComponent(searchInput)}&count=10&l=english`;
+    //const url = `https://13584595.xyz/raw?url=https://store.steampowered.com/search/results/?term=${encodeURIComponent(searchInput)}&count=10&l=english`;
 
     try {
         const html = await fetchWithRetries(url, 5000, 'text'); // Total of 10 seconds for all attempts
