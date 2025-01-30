@@ -2,7 +2,7 @@
 
 ## Website
 
-Visit the [Steam Family Share Checker website](https://tfurci.github.io/steam-family-share-checker/) to try it out!
+Visit the [Steam Family Share Checker website](https://steamshare.site/) to try it out!
 
 ## Usage
 
